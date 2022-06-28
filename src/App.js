@@ -73,7 +73,7 @@ function LittlestTokyo({ hover }) {
   // })
   // return <primitive object={scene} {...props} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>;
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<h1>Loading profile...</h1>}>
     <group ref={ref}>
     <primitive object={scene} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>
       {/* <ReactAtom position={[35, -20, 0]} scale={[1, 0.5, 1]} /> */}
