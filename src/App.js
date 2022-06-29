@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Suspense, useEffect, useLayoutEffect,useRef, useState } from "react";
+import React,{ Suspense, useEffect, useLayoutEffect,useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   ScrollControls,
@@ -18,6 +18,7 @@ export default function App() {
       ? 'pointer'
       : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto"
   }, [hovered])
+  
   return (  
     <Canvas
       dpr={[1, 2]}
@@ -37,13 +38,7 @@ export default function App() {
         castShadow
       />
       <Sky scale={1000} sunPosition={[0, 0, 0]} />
-      {/* <Suspense fallback={null}> */}
-        {/* Wrap contents you want to scroll into <ScrollControls> */}
-        {/* <ScrollControls pages={3}> */}
         <LittlestTokyo mouse={mouse} hover={hover} scale={0.1} position={[0, 6, -4]} />
-        {/* <OrbitControls /> */}
-        {/* </ScrollControls> */}
-      {/* </Suspense> */}
     </Canvas>
   );
 }
@@ -57,34 +52,15 @@ function LittlestTokyo({ hover }) {
       ref.current.rotation.y = 0.8
     }
   })
-  // This hook gives you offets, ranges and other useful things
-  // const scroll = useScroll()
   const { scene, nodes, animations } = useGLTF("/terrain.glb");
   const { actions } = useAnimations(animations, scene);
-  // useLayoutEffect(() => Object.values(nodes).forEach((node) => (node.receiveShadow = node.castShadow = true)))
-  // useEffect(() => void (actions['Take 001'].play().paused = true), [actions])
-  // useFrame((state, delta) => {
-  //   const action = actions['Take 001']
-  //   // The offset is between 0 and 1, you can apply it to your models any way you like
-  //   const offset = 1 - scroll.offset
-  //   action.time = THREE.MathUtils.damp(action.time, (action.getClip().duration / 2) * offset, 100, delta)
-  //   state.camera.position.set(Math.sin(offset) * -10, Math.atan(offset * Math.PI * 2) * 5, Math.cos((offset * Math.PI) / 3) * -10)
-  //   state.camera.lookAt(0, 0, 0)
-  // })
-  // return <primitive object={scene} {...props} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>;
   return (
-    <Suspense fallback={null}>
+    <React.Suspense fallback={<div>Loading... </div>}>
     <group ref={ref}>
     <primitive object={scene} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>
-      {/* <ReactAtom position={[35, -20, 0]} scale={[1, 0.5, 1]} /> */}
     </group>
-  </Suspense>
+  </React.Suspense>
   )
 }
 
-/*
-author: glenatron (https://sketchfab.com/glenatron)
-license: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-source: https://sketchfab.com/models/94b24a60dc1b48248de50bf087c0f042
-title: Littlest Tokyo */
 useGLTF.preload("/terrain.glb");
