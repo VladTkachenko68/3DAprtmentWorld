@@ -16,13 +16,17 @@ export default function App() {
   const renderer = new THREE.WebGLRenderer({ alpha: true });
   useEffect(() => {
     renderer.setSize(window.innerWidth/2,  window.innerHeight/2);
-    let count = 0;
-    setInterval(() => {
-      console.log(++count);
-      const canvas = document.createElement("canvas");
-      document.body.appendChild(canvas);
-    }, 1000);
-
+    const canvas = renderer.domElement;
+    canvas.addEventListener(
+      'webglcontextlost',
+      function (event) {
+        event.preventDefault();
+        setTimeout(function () {
+          renderer.forceContextRestore();
+        }, 1);
+      },
+      false
+    );
     document.body.style.cursor = hovered
       ? "pointer"
       : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto";
@@ -47,7 +51,7 @@ export default function App() {
         castShadow
       />
       <Sky scale={1000} sunPosition={[0, 0, 0]} />
-      <Suspense fallback={<h1>Loading profile...</h1>}>
+      <Suspense fallback={null}>
         <LittlestTokyo
           mouse={mouse}
           hover={hover}
