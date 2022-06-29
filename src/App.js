@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Suspense, useEffect, useLayoutEffect,useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   ScrollControls,
@@ -11,14 +11,14 @@ import {
 } from "@react-three/drei";
 
 export default function App() {
-  const [hovered, hover] = useState(false)
-  const mouse = useRef([0, 0])
+  const [hovered, hover] = useState(false);
+  const mouse = useRef([0, 0]);
   useEffect(() => {
     document.body.style.cursor = hovered
-      ? 'pointer'
-      : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto"
-  }, [hovered])
-  return (  
+      ? "pointer"
+      : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto";
+  }, [hovered]);
+  return (
     <Canvas
       dpr={[1, 2]}
       shadows
@@ -26,7 +26,7 @@ export default function App() {
       style={{ height: "100vh" }}
     >
       <ambientLight intensity={0.03} />
-      <fog attach="fog" args={["#354AA1", 5, 18]} density = "0.1"/>
+      <fog attach="fog" args={["#354AA1", 5, 18]} density="0.1" />
       <spotLight
         angle={0.14}
         color="#CDDAE0"
@@ -37,29 +37,46 @@ export default function App() {
         castShadow
       />
       <Sky scale={1000} sunPosition={[0, 0, 0]} />
-        <LittlestTokyo mouse={mouse} hover={hover} scale={0.1} position={[0, 6, -4]} />
+      <Suspense fallback={<h1>Loading profile...</h1>}>
+        <LittlestTokyo
+          mouse={mouse}
+          hover={hover}
+          scale={0.1}
+          position={[0, 6, -4]}
+        />
+      </Suspense>
     </Canvas>
   );
 }
 
 function LittlestTokyo({ hover }) {
-  const ref = useRef()
+  const ref = useRef();
   useFrame((state) => {
     if (ref.current) {
-      ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, state.mouse.x * 2, 0.05)
-      ref.current.rotation.x = THREE.MathUtils.lerp(ref.current.rotation.x, state.mouse.y / 2, 0.05)
-      ref.current.rotation.y = 0.8
+      ref.current.position.x = THREE.MathUtils.lerp(
+        ref.current.position.x,
+        state.mouse.x * 2,
+        0.05
+      );
+      ref.current.rotation.x = THREE.MathUtils.lerp(
+        ref.current.rotation.x,
+        state.mouse.y / 2,
+        0.05
+      );
+      ref.current.rotation.y = 0.8;
     }
-  })
+  });
   const { scene, nodes, animations } = useGLTF("/terrain.glb");
   const { actions } = useAnimations(animations, scene);
   return (
-    <Suspense fallback={null}>
     <group ref={ref}>
-    <primitive object={scene} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>
+      <primitive
+        object={scene}
+        onPointerOver={() => hover(true)}
+        onPointerOut={() => hover(false)}
+      />
     </group>
-  </Suspense>
-  )
+  );
 }
 
 useGLTF.preload("/terrain.glb");
