@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React,{ Suspense, useEffect, useLayoutEffect,useRef, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect,useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   ScrollControls,
@@ -18,7 +18,6 @@ export default function App() {
       ? 'pointer'
       : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto"
   }, [hovered])
-  
   return (  
     <Canvas
       dpr={[1, 2]}
@@ -55,11 +54,9 @@ function LittlestTokyo({ hover }) {
   const { scene, nodes, animations } = useGLTF("/terrain.glb");
   const { actions } = useAnimations(animations, scene);
   return (
-    <React.Suspense fallback={<div>Loading... </div>}>
     <group ref={ref}>
     <primitive object={scene} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>
     </group>
-  </React.Suspense>
   )
 }
 
