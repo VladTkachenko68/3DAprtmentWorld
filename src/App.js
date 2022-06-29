@@ -13,11 +13,14 @@ import {
 export default function App() {
   const [hovered, hover] = useState(false);
   const mouse = useRef([0, 0]);
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
   useEffect(() => {
+    renderer.setSize(window.innerWidth,  window.innerHeight);
     document.body.style.cursor = hovered
       ? "pointer"
       : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto";
   }, [hovered]);
+
   return (
     <Canvas
       dpr={[1, 2]}
@@ -66,8 +69,11 @@ function LittlestTokyo({ hover }) {
       ref.current.rotation.y = 0.8;
     }
   });
+  
+  
   const { scene, nodes, animations } = useGLTF("/terrain.glb");
   const { actions } = useAnimations(animations, scene);
+  
   return (
     <group ref={ref}>
       <primitive
