@@ -15,7 +15,7 @@ export default function App() {
   const mouse = useRef([0, 0]);
   const renderer = new THREE.WebGLRenderer({ alpha: true });
   useEffect(() => {
-    renderer.setSize(window.innerWidth,  window.innerHeight);
+    renderer.setSize(window.innerWidth/2,  window.innerHeight/2);
     document.body.style.cursor = hovered
       ? "pointer"
       : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto";
