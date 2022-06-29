@@ -16,9 +16,15 @@ export default function App() {
   const renderer = new THREE.WebGLRenderer({ alpha: true });
   useEffect(() => {
     renderer.setSize(window.innerWidth/2,  window.innerHeight/2);
-    renderer.domElement.addEventListener( 'webglcontextlost', function() {
-      location.reload();
-  } );
+    renderer.context.canvas.addEventListener("webglcontextlost", function(event) {
+      event.preventDefault();
+      // animationID would have been set by your call to requestAnimationFrame
+      cancelAnimationFrame(animationID); 
+  }, false);
+  
+  renderer.context.canvas.addEventListener("webglcontextrestored", function(event) {
+     // Do something 
+  }, false);
     document.body.style.cursor = hovered
       ? "pointer"
       : "url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39, auto";
