@@ -55,19 +55,11 @@ function LittlestTokyo({ hover }) {
   const { scene, nodes, animations } = useGLTF("/terrain.glb");
   const { actions } = useAnimations(animations, scene);
   return (
-<<<<<<< HEAD
     <React.Suspense fallback={<div>Loading... </div>}>
-=======
-    <div>
->>>>>>> 173b2b955156b3b9aac15be183f28955f8798752
     <group ref={ref}>
     <primitive object={scene} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}/>
     </group>
-<<<<<<< HEAD
   </React.Suspense>
-=======
-  </div>
->>>>>>> 173b2b955156b3b9aac15be183f28955f8798752
   )
 }
 
